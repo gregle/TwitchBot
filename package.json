@@ -1,0 +1,19 @@
+{
+  "name": "wollowbot",
+  "version": "1.0.0",
+  "description": "twitch Wollowbot",
+  "main": "Wollowbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "floobits",
+    "url": "https://floobits.com/T-RY-/Coding"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.3.12",
+    "tmi.js": "0.0.29"
+  }
+}
