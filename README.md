@@ -1,12 +1,14 @@
-# WollowBot.js
+# TwitchBot.js
 
-Welcome to WollowBot!
+Welcome to TwitchBot!
 
 Someday it'll actually do something maybe if everyone has enough freetime/drive to actually get it off the ground or whatever. As it stands the project uses DynamoDB as its backend.
 
 ## Setup
 
-* Clone the repo: `git clone https://github.com/DegoBear/wollowbot.git`
+* Install MongoDB: https://www.mongodb.com/
+
+* Clone the repo: `git clone https://github.com/gregle/TwitchBot.git`
 
 * Create a file called "config.json" which contains the below JSON configuration:
 
@@ -17,7 +19,7 @@ Someday it'll actually do something maybe if everyone has enough freetime/drive 
 			"debug": true 
 		},
 		"connection": {
-			"cluster": "aws",
+			"cluster": "mongodb",
 			"reconnect": true
 		},
 		"identity": {
@@ -26,16 +28,13 @@ Someday it'll actually do something maybe if everyone has enough freetime/drive 
 		},
 		"channels": ["INSET YOUR CHANNEL NAME HERE"]
 	},
-	"aws": {
-		"accessKeyId": "INSERT DynamoDB ACCESS KEY HERE",
-		"secretAccessKey": "INSERT DynamoDB SECRET ACCESS KEY HERE",
-		"region": "us-west-2"
-	},
+    "mongodb": {
+        "url": "mongodb://localhost:27017/twitchbot"
+    },
 	"user": "INSERT YOUR USERNAME HERE"
 }
 ```
 * Replace the **INSERT** statements with the appropriate settings
-	- To get your DynamoDB Keys you'll need to us the Identity and Access Management (IAM) Console withing AWS to generate one
 
 * Run `npm install` to insall the required packages
 
