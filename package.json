@@ -1,19 +1,19 @@
 {
-  "name": "wollowbot",
+  "name": "twitchbot",
   "version": "1.0.0",
-  "description": "twitch Wollowbot",
-  "main": "Wollowbot.js",
+  "description": "twitch bot",
+  "main": "twitchbot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
-    "type": "floobits",
-    "url": "https://floobits.com/T-RY-/Coding"
+    "type": "git",
+    "url": "https://github.com/gregle/TwitchBot"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Gregle",
+  "license": "MIT",
   "dependencies": {
-    "aws-sdk": "^2.3.12",
+    "mongodb": "^2.1.18",
     "tmi.js": "0.0.29"
   }
 }

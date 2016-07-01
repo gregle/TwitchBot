@@ -1,20 +1,26 @@
 // Database constructor
 function Database () {
-	//load Amazon Web Services
-	this.AWS = require('aws-sdk');
+	//load Database
+	this.MongoClient = require('mongodb').MongoClient;
+	this.assert = assert = require('assert');
 }
 
 // Initialize a new instance of our database
 Database.prototype.init = function(options, tables){
+	this.MongoClient.connect(options.url, function(err, db) {
+	  assert.equal(null, err);
+	  console.log("Connected correctly to server.");
+	  db.close();
+	});
 	//config the db for AWS
-	this.AWS.config.update(options);
+	//this.AWS.config.update(options);
 
-	this.dynamodb = new this.AWS.DynamoDB();
+	//this.dynamodb = new this.AWS.DynamoDB();
 
-	this.docClient = new this.AWS.DynamoDB.DocumentClient();
+	//this.docClient = new this.AWS.DynamoDB.DocumentClient();
 
 	// A list of required database tables ( They can be empty but they need to be there )
-	this.tableList = tables;
+	/*this.tableList = tables;
 
 	// Check to see if all the tables exist in the database and if they don't create them
 	this.dynamodb.listTables(function(err,data) {
@@ -92,7 +98,7 @@ Database.prototype.getItem = function(tableName, keys, callback){
 	    TableName: tableName,
 	    Key: keys
 	};
-	this.docClient.get(params, callback);
+	this.docClient.get(params, callback);*/
 };
 
 module.exports = Database;

@@ -1,9 +1,9 @@
 //load Amazon Web Services
-var AWS = require('aws-sdk');
+//var AWS = require('aws-sdk');
 
 var Commands = function () {};
 
-Commands.prototype.createCmd = function(keyword, output, twitchClient){
+/*Commands.prototype.createCmd = function(keyword, output, twitchClient){
 	console.log('keyword: ' + keyword + '\r\n' + 'output: ' + output);
 	if (keyword.indexOf('!') !== 0){
 		keyword = '!' + keyword;
@@ -27,7 +27,7 @@ Commands.prototype.createCmd = function(keyword, output, twitchClient){
        }
 	});
 	return result;
-};
+};*/
 
 Commands.prototype.getCmdList = function(){
 	return [];

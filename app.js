@@ -13,7 +13,7 @@ var botUser = options.user;
 var tableList = ['Commands', 'Viewers'];
 
 var db = new Database();
-db.init(options.aws, tableList);
+db.init(options.mongodb, tableList);
 
 var createCmd = function(keyword, output){
 	console.log('keyword: ' + keyword + '\r\n' + 'output: ' + output);
@@ -23,7 +23,7 @@ var createCmd = function(keyword, output){
 
 	var entry = { "keyword": keyword, "output": output };
 
-	db.putItem("Commands", entry);
+	//db.putItem("Commands", entry);
 };
 
 
@@ -56,12 +56,12 @@ client.on('chat', function(channel, user, message, self){
 			client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			db.getItem("Commands", {"keyword": msgArr[0]}, function(err, data) {
+			/*db.getItem("Commands", {"keyword": msgArr[0]}, function(err, data) {
 			    if (err)
 			        client.action(botUser, 'There was a problem');
 			    else
 			        client.action(botUser, data.Item.output);
-			});
+			});*/
 		}
 	}
 });
