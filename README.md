@@ -25,7 +25,7 @@ Someday it'll actually do something maybe if everyone has enough freetime/drive 
 		"identity": {
 			"username": "INSERT BOT ACCOUNT NAME HERE",
 			"password": "INSERT ACCOUNT OAUTH HERE"
-		},
+		}, 
 		"channels": ["INSET YOUR CHANNEL NAME HERE"]
 	},
     "mongodb": {
