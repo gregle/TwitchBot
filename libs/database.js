@@ -44,4 +44,9 @@ Database.prototype.getItem = function(collectionName, keys, callback){
 	db.collection(collectionName).find(keys, callback);
 };
 
+Database.prototype.removeItem = function(collectionName, keys, callback){
+	callback = callback || null;
+	db.collection(collectionName).remove(keys, callback);
+};
+
 module.exports = Database;

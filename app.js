@@ -23,9 +23,16 @@ var createCmd = function(keyword, output){
 
 	var entry = { "keyword": keyword, "output": output };
 
-	db.insertUpdateItem("Commands", { "keyword": keyword }, { "output" : output });
+	db.insertUpdateItem("Commands", { "keyword": keyword }, { "output" : output }, function(){
+		client.action(botUser, "Command " + keyword + " added");
+	});
 };
 
+var removeCmd = function(keyword){
+	db.removeItem("Commands", { "keyword": keyword }, function(){
+		client.action(botUser, "Command " + keyword + " removed");
+	});
+};
 
 //create a new tmi client
 var client = new tmi.client(options.twitch);
@@ -43,8 +50,11 @@ client.on('chat', function(channel, user, message, self){
 		if(msgArr[0] === "!command"){
 			// Username is a mod or username is the broadcaster..
 			if (user["user-type"] === "mod" || user.username === channel.replace("#", "")){
-				if (msgArr[1] && msgArr[1] === 'create'){
+				if (msgArr[1] && msgArr[1] === 'add'){
 					createCmd( msgArr[2], message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ));
+				}
+				if (msgArr[1] && msgArr[1] === 'remove'){
+					removeCmd( msgArr[2] );
 				}
 			}
 			else{
