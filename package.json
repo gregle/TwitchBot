@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "mongodb": "^2.1.18",
+    "mongojs": "^2.4.0",
     "tmi.js": "0.0.29"
   }
 }

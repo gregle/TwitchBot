@@ -13,17 +13,17 @@ var botUser = options.user;
 var tableList = ['Commands', 'Viewers'];
 
 var db = new Database();
-db.init(options.mongodb, tableList);
+db.init(tableList);
 
 var createCmd = function(keyword, output){
-	console.log('keyword: ' + keyword + '\r\n' + 'output: ' + output);
+
 	if (keyword.indexOf('!') !== 0){
 		keyword = '!' + keyword;
 	}
 
 	var entry = { "keyword": keyword, "output": output };
 
-	//db.putItem("Commands", entry);
+	db.insertUpdateItem("Commands", { "keyword": keyword }, { "output" : output });
 };
 
 
@@ -51,17 +51,16 @@ client.on('chat', function(channel, user, message, self){
 				client.action(user ['display-name'] + ", only mods can use that command");
 			}
 		}
-
 		else if(msgArr[0] === "!bot"){
 			client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			/*db.getItem("Commands", {"keyword": msgArr[0]}, function(err, data) {
+			db.getItem("Commands", {"keyword": msgArr[0]}, function(err, data) {
 			    if (err)
 			        client.action(botUser, 'There was a problem');
 			    else
-			        client.action(botUser, data.Item.output);
-			});*/
+			        if(data.length > 0) {client.action(botUser, data[0].output);}
+			});
 		}
 	}
 });
