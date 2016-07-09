@@ -5,10 +5,11 @@ var db = mongojs(uri);
 // Database constructor
 function Database () {}
 
+Database.prototype.db = db;
+
 // Initialize a new instance of our database
 Database.prototype.init = function(tables){
-    db = mongojs(uri);
-    db.getCollectionNames(function(err, result){
+    this.db.getCollectionNames(function(err, result){
     	for (var i = 0; i < tables.length; i++){
 			console.log('\r\nChecking for ' + tables[i] + ' table');
 			if(result.indexOf(tables[i]) >= 0)
@@ -25,7 +26,7 @@ Database.prototype.init = function(tables){
 
 Database.prototype.insertUpdateItem = function(collectionName, key, update, callback){
 	callback = callback || null;
-	var collection = db.collection(collectionName);
+	var collection = this.db.collection(collectionName);
 	if(collection){
 	    collection.update(key, {$set : update}, { upsert: true }, function(err, result) {
 	       if (err) {
@@ -41,12 +42,12 @@ Database.prototype.insertUpdateItem = function(collectionName, key, update, call
 };
 
 Database.prototype.getItem = function(collectionName, keys, callback){
-	db.collection(collectionName).find(keys, callback);
+	this.db.collection(collectionName).find(keys, callback);
 };
-
+ 
 Database.prototype.removeItem = function(collectionName, keys, callback){
 	callback = callback || null;
-	db.collection(collectionName).remove(keys, callback);
+	this.db.collection(collectionName).remove(keys, callback);
 };
 
-module.exports = Database;
+module.exports = new Database();
