@@ -22,8 +22,18 @@ Commands.prototype.removeCmd = function(keyword){
   });
 };
 
+//str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
+Commands.prototype.processString = function(str, args){
+  var output = str;
+  for(var i = 0; i < args.length; i++){
+    var re = new RegExp('{('+ i +')}', 'g');
+    output = output.replace(re, args[i]);
+  }
+  return output;
+};
+
 Commands.prototype.getCmdList = function(){
-	return [];
+  return [];
 };
 
 module.exports = new Commands();
