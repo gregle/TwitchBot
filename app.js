@@ -47,7 +47,10 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			    if (err)
 			        Twitch.client.action(botUser, 'There was a problem');
 			    else
-			        if(data.length > 0) {Twitch.client.action(botUser, data[0].output);}
+			        if(data.length > 0) {
+			        	var output = Commands.processString(data[0].output, msgArr.slice(1));
+			        	Twitch.client.action(botUser, output);
+			        }
 			});
 		}
 	}
