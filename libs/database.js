@@ -1,39 +1,28 @@
-var mongojs = require("mongojs");
+var mongoose = require('mongoose');
+var fs = require('fs');
+var path = require('path');
+
 var uri = require("../config.json").MongoDBURL;
-var db = mongojs(uri);
+mongoose.connect(uri);
 
 // Database constructor
 function Database () {}
 
-Database.prototype.db = db;
+//load all files in models dir
+fs.readdirSync('./models').forEach(function(filename) {
+	if(~filename.indexOf('.js')) require(path.join(__dirname, '../', 'models', filename));
+});
 
-// Initialize a new instance of our database
-Database.prototype.init = function(tables){
-    this.db.getCollectionNames(function(err, result){
-    	for (var i = 0; i < tables.length; i++){
-			console.log('\r\nChecking for ' + tables[i] + ' table');
-			if(result.indexOf(tables[i]) >= 0)
-			{
-				console.log(tables[i] + ' exists');
-			}
-			else{
-				console.log(tables[i] + ' table missing; creating ' + tables[i] + ' table');
-				db.createCollection(tables[i],{});
-			}
-		}
-    });
-};
-
-Database.prototype.insertUpdateItem = function(collectionName, key, update, callback){
+Database.prototype.insertUpdateItem = function(schemaName, key, update, callback){
 	callback = callback || null;
-	var collection = this.db.collection(collectionName);
+	var collection = mongoose.model(schemaName);
 	if(collection){
 	    collection.update(key, {$set : update}, { upsert: true }, function(err, result) {
 	       if (err) {
-	           console.error("insertItem failed:in collection", collectionName + " Entry: " + JSON.stringify(key, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
+	           console.error("insertItem failed:in collection", schemaName + " Entry: " + JSON.stringify(key, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
 	       		// TODO SEND NOTICE TO OUTPUT MODULE
 	       } else {
-	           console.log("insertItem succeeded in collection", collectionName + " Entry: " + JSON.stringify(key, null, 2));
+	           console.log("insertItem succeeded in collection", schemaName + " Entry: " + JSON.stringify(key, null, 2));
 	           if (callback){callback();}
 	       }
 	    });
@@ -41,13 +30,13 @@ Database.prototype.insertUpdateItem = function(collectionName, key, update, call
 	else{ console.log('Could not find collection ' + collectionName + ' on insert'); }
 };
 
-Database.prototype.getItem = function(collectionName, keys, callback){
-	this.db.collection(collectionName).find(keys, callback);
+Database.prototype.getItem = function(schemaName, keys, callback){
+	mongoose.model(schemaName).find(keys, callback);
 };
- 
-Database.prototype.removeItem = function(collectionName, keys, callback){
+
+Database.prototype.removeItem = function(schemaName, keys, callback){
 	callback = callback || null;
-	this.db.collection(collectionName).remove(keys, callback);
+	mongoose.model(schemaName).find(keys).remove(callback);
 };
 
 module.exports = new Database();

@@ -11,13 +11,13 @@ Commands.prototype.createCmd = function(keyword, output){
 
   var entry = { "keyword": keyword, "output": output };
 
-  db.insertUpdateItem("Commands", { "keyword": keyword }, { "output" : output }, function(){
+  db.insertUpdateItem("commands", { "keyword": keyword }, { "output" : output }, function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " added");
   });
 };
 
 Commands.prototype.removeCmd = function(keyword){
-  db.removeItem("Commands", { "keyword": keyword }, function(){
+  db.removeItem("commands", { "keyword": keyword }, function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " removed");
   });
 };

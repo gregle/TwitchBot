@@ -1,20 +1,17 @@
 //load twitch messaging interface
 var tmi=require('tmi.js');
 
+
 // Load Modules and Configuration
 var options = require('./config.json');
 var db = require('./libs/database.js');
 var Twitch = require('./libs/twitch.js');
 var Commands = require('./libs/commands.js');
 
-
 var botUser = options.user;
 
 // A list of required database tables ( They can be empty but they need to be there )
-var tableList = ['Commands', 'Viewers'];
-
-//var db = new Database();
-db.init(tableList);
+var tableList = ['Commands', 'Viewers', 'Quotes', 'AutoCommands'];
 
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
@@ -43,7 +40,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			db.getItem("Commands", {"keyword": msgArr[0]}, function(err, data) {
+			db.getItem("commands", {"keyword": msgArr[0]}, function(err, data) {
 			    if (err)
 			        Twitch.client.action(botUser, 'There was a problem');
 			    else
