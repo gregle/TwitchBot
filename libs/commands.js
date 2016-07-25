@@ -1,5 +1,6 @@
 var db = require('../libs/database.js');
 var Twitch = require('../libs/twitch.js');
+var mongoose = require('mongoose');
 
 var Commands = function () {};
 
@@ -9,15 +10,21 @@ Commands.prototype.createCmd = function(keyword, output){
     keyword = '!' + keyword;
   }
 
-  var entry = { "keyword": keyword, "output": output };
+  var entry = { 
+    "keyword": keyword, 
+    "output": output,
+    "nonFollower": true,
+    "follower": true,
+    "subscriber": true,
+    "moderator": true };
 
-  db.insertUpdateItem("commands", { "keyword": keyword }, { "output" : output }, function(){
+  db.insertUpdateItem("command", { "keyword": keyword }, entry, function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " added");
   });
 };
 
 Commands.prototype.removeCmd = function(keyword){
-  db.removeItem("commands", { "keyword": keyword }, function(){
+  db.removeItem("command", { "keyword": keyword }, function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " removed");
   });
 };

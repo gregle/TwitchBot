@@ -10,4 +10,4 @@ var autoCmdsSchema = new Schema( {
 	offline:		Boolean
 });
 
-mongoose.model('autoCmds', autoCmdsSchema);
+mongoose.model('autoCmd', autoCmdsSchema);

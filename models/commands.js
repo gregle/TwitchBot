@@ -10,4 +10,4 @@ var commandsSchema = new Schema( {
 	moderator:		Boolean
 });
 
-mongoose.model('commands', commandsSchema);
+mongoose.model('command', commandsSchema);

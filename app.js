@@ -40,7 +40,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			db.getItem("commands", {"keyword": msgArr[0]}, function(err, data) {
+			db.getItem("command", {"keyword": msgArr[0]}, function(err, data) {
 			    if (err)
 			        Twitch.client.action(botUser, 'There was a problem');
 			    else

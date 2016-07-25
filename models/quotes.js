@@ -8,4 +8,4 @@ var quotesSchema = new Schema( {
 	date:	Date
 });
 
-mongoose.model('quotes', quotesSchema);
+mongoose.model('quote', quotesSchema);

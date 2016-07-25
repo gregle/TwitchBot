@@ -10,4 +10,4 @@ var viewersSchema = new Schema( {
 	subscriber: 	Boolean
 });
 
-mongoose.model('viewers', viewersSchema);
+mongoose.model('viewer', viewersSchema);
