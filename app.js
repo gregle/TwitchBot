@@ -7,14 +7,18 @@ var options = require('./config.json');
 var db = require('./libs/database.js');
 var Twitch = require('./libs/twitch.js');
 var Commands = require('./libs/commands.js');
+var Audience = require('./libs/Audience.js');
 
 var botUser = options.user;
 
-// A list of required database tables ( They can be empty but they need to be there )
-var tableList = ['Commands', 'Viewers', 'Quotes', 'AutoCommands'];
-
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
+});
+
+Twitch.client.on("names", function(channel, users)  {
+	for(var i = 0; i < users.length; i++){
+		Audience.createUpdateMember(users[i]);
+	}
 });
 
 Twitch.client.on('chat', function(channel, user, message, self){
@@ -40,14 +44,14 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			db.getItem("command", {"keyword": msgArr[0]}, function(err, data) {
-			    if (err)
-			        Twitch.client.action(botUser, 'There was a problem');
-			    else
+			db.getItem("Command", {"keyword": msgArr[0]}, function(err, data) {
+			    if (err) { Twitch.client.action(botUser, 'There was a problem'); }
+			    else {
 			        if(data.length > 0) { 
 			        	var output = Commands.processString(data[0].output, msgArr.slice(1));
 			        	Twitch.client.action(botUser, output);
 			        }
+			    }
 			});
 		}
 	}

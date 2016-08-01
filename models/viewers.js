@@ -3,11 +3,12 @@ var Schema = mongoose.Schema;
 
 var viewersSchema = new Schema( {
 	name: 			String,
-	currancy: 		Number,
-	timeWatched: 	Number,
-	moderator: 		Boolean,
-	whitelist: 		Boolean,
-	subscriber: 	Boolean
+	currency: 		{type: Number, default: 0},
+	timeWatched: 	{type: Number, default: 0},
+	moderator: 		{type: Boolean, default: false},
+	whitelist: 		{type: Boolean, default: false},
+	subscriber: 	{type: Boolean, default: false},
+	lastSeen: 		{type: Date, default: Date.now}
 });
 
 mongoose.model('viewer', viewersSchema);
