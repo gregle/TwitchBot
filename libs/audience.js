@@ -9,9 +9,9 @@ Audience.prototype.createUpdateMember = function(_name, status){
 		name: _name,
 	};
 
-	db.insertUpdateItem("viewer", { "name": _name }, viewer, function(){
+	/*db.insertUpdateItem("viewer", { "name": _name }, viewer, function(){
 		Twitch.client.action(Twitch.botUser, "User " + _name + " added");
-	});
+	});*/
 };
 
 module.exports = new Audience();

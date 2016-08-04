@@ -14,7 +14,7 @@ Currency.prototype.removeCurrency = function(keyword){
 
 //str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
 Currency.prototype.returnCurrencyCount = function(viewer, args){
-	db.getItem("viewer", { "name": viewer },function(err, data) {
+	/*db.getItem("viewer", { "name": viewer },function(err, data) {
 		if (err) { Twitch.client.action(botUser, 'There was a problem'); }
 		else {
 			if(data.length > 0) { 
@@ -22,7 +22,7 @@ Currency.prototype.returnCurrencyCount = function(viewer, args){
 				Twitch.client.action(botUser, output);
 			}
 		}
-	});
+	});*/
 };
 
 module.exports = new Currency();

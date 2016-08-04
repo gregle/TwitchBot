@@ -1,6 +1,5 @@
 //load twitch messaging interface
-var tmi=require('tmi.js');
-
+var mongoose = require('mongoose');
 
 // Load Modules and Configuration
 var options = require('./config.json');
@@ -44,8 +43,8 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
 		else{
-			db.getItem("Command", {"keyword": msgArr[0]}, function(err, data) {
-			    if (err) { Twitch.client.action(botUser, 'There was a problem'); }
+			mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {
+			    if (err) { Twitch.client.action(botUser, 'There was a problem'); console.log(err);}
 			    else {
 			        if(data.length > 0) { 
 			        	var output = Commands.processString(data[0].output, msgArr.slice(1));

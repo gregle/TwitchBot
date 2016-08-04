@@ -1,4 +1,4 @@
-var db = require('../libs/database.js');
+var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
 
 var Commands = function () {};
@@ -9,21 +9,29 @@ Commands.prototype.createCmd = function(keyword, output){
     keyword = '!' + keyword;
   }
 
-  var entry = { 
+  var command = { 
     "keyword": keyword, 
     "output": output,
     "nonFollower": true,
     "follower": true,
     "subscriber": true,
     "moderator": true };
+  var collection = mongoose.model('Command');
 
-  db.insertUpdateItem("Command", { "keyword": keyword }, entry, function(){
-    Twitch.client.action(Twitch.botUser, "Command " + keyword + " added");
+  collection.findOneAndUpdate( { "keyword": keyword }, command, {upsert:true}, function(err, doc){
+    if (err) {
+        console.error("insertItem failed:in collection command. Entry: " + JSON.stringify(keyword, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
+        Twitch.client.action(Twitch.botUser, "There was a problem adding command " + keyword);
+     } else {
+        console.log("insertItem succeeded in collection command. Entry: " + JSON.stringify(keyword, null, 2));
+        Twitch.client.action(Twitch.botUser, "Command " + keyword + " added");
+     }
   });
 };
 
 Commands.prototype.removeCmd = function(keyword){
-  db.removeItem("command", { "keyword": keyword }, function(){
+  var collection = mongoose.model('Command');
+  collection.find({ "keyword": keyword }).remove(function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " removed");
   });
 };
