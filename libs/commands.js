@@ -43,6 +43,8 @@ Commands.prototype.processString = function(str, args){
     var re = new RegExp('{('+ i +')}', 'g');
     output = output.replace(re, args[i]);
   }
+  var removePlaceholders = new RegExp('{([0-9])}', 'g');
+  output = output.replace(removePlaceholders, '');
   return output;
 };
 

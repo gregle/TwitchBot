@@ -7,8 +7,7 @@ var viewersSchema = new Schema( {
 	timeWatched: 	{type: Number, default: 0},
 	moderator: 		{type: Boolean, default: false},
 	whitelist: 		{type: Boolean, default: false},
-	subscriber: 	{type: Boolean, default: false},
 	lastSeen: 		{type: Date, default: Date.now}
 });
 
-mongoose.model('viewer', viewersSchema);
+mongoose.model('Viewer', viewersSchema);

@@ -6,18 +6,17 @@ var options = require('./config.json');
 var db = require('./libs/database.js');
 var Twitch = require('./libs/twitch.js');
 var Commands = require('./libs/commands.js');
-var Audience = require('./libs/Audience.js');
+var Audience = require('./libs/audience.js');
+var Timers = require('./libs/timers.js');
 
 var botUser = options.user;
 
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
-});
-
-Twitch.client.on("names", function(channel, users)  {
-	for(var i = 0; i < users.length; i++){
-		Audience.createUpdateMember(users[i]);
-	}
+	Twitch.isStreamOnline(function(streamOnline){
+		if (streamOnline){ Timers.streamOnline(); }
+		else { Timers.streamOffline(); }
+	});
 });
 
 Twitch.client.on('chat', function(channel, user, message, self){

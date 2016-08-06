@@ -1,9 +1,21 @@
 var db = require('../libs/database.js');
 var Twitch = require('../libs/twitch.js');
-var CurrencyName = require('../config.json').CurrencyName;
+var Audience = require('../libs/audience.js');
+var options = require('../config.json').currency;
+
+
+var currencyTimer = function(){
+	getViewerList('gregle',function (users){
+		
+		console.log(users);
+	});
+};
+
+//setInterval(currencyTimer, 1000 * 60 * Currency.options.onlineRateMinutes);
 
 var Currency = function () {};
 
+Currency.prototype.options = options;
 Currency.prototype.modifyCurrency = function(target, amount){
 
 };
