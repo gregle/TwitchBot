@@ -24,8 +24,8 @@ var updateViewersDB = function(chatters){
 	}
 	if (bulk.length > 0) {
 		bulk.execute(function(err,result) {
-	       if(err){ console.log("ERROR: there was a problem with viewer updates: " + err); }
-	       else { console.log("TWITCH BOT: viewer table updated"); }
+	       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with viewer updates: " + err); }
+	       else { console.log("<--TWITCH BOT--> viewer table updated"); }
 	    });
 	}
 };

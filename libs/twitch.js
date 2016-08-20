@@ -16,7 +16,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("ERROR: Could not retrieve viewer list");
+			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve viewer list");
 		}
 		else{
 	    	var response = JSON.parse(body);
@@ -37,7 +37,7 @@ Twitch.prototype.getChatterList = function(callback) {
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("ERROR: Could not retrieve viewer list");
+			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve viewer list");
 		}
 		else{
 			var chatters = JSON.parse(body).chatters;

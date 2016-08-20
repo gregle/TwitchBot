@@ -3,21 +3,11 @@ var Twitch = require('../libs/twitch.js');
 var Audience = require('../libs/audience.js');
 var options = require('../config.json').currency;
 
-
-var currencyTimer = function(){
-	getViewerList('gregle',function (users){
-		
-		console.log(users);
-	});
-};
-
-//setInterval(currencyTimer, 1000 * 60 * Currency.options.onlineRateMinutes);
-
 var Currency = function () {};
 
 Currency.prototype.options = options;
 Currency.prototype.modifyCurrency = function(target, amount){
-
+	console.log("<--TWITCH BOT--> currency triggered");
 };
 
 Currency.prototype.removeCurrency = function(keyword){

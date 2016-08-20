@@ -13,10 +13,7 @@ var botUser = options.user;
 
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
-	Twitch.isStreamOnline(function(streamOnline){
-		if (streamOnline){ Timers.streamOnline(); }
-		else { Timers.streamOffline(); }
-	});
+	Timers.startTimers();
 });
 
 Twitch.client.on('chat', function(channel, user, message, self){
