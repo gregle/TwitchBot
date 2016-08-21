@@ -152,3 +152,8 @@ Describes the bot origin
 	\\returns: gregle was first seen on Sun Aug 21 2016
 
 Returns when the user was first seen in chat
+
+	!parrot {phrase}
+	\\returns: {phrase}
+
+The bot echos word for word the message it was sent

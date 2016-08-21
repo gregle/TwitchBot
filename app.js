@@ -54,7 +54,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 		else if(msgArr[0] === "!firstseen"){
 			Audience.getFirstSeen(user.username);
 		}
-		//Self identifying command
+		//Echo a message
 		else if(msgArr[0] === "!parrot"){
 			var output = message.substr(message.indexOf(" ") + 1);
 			Twitch.sendChatMsg(output);
