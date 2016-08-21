@@ -2,13 +2,16 @@ var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
 var config = require('../config.json');
 
+//Helper object holding the complex string generators
 var currencyStringHelper = {
+	//Generates the string associated with currency modification (add rem)
 	modify : function(target, amount){
 		var output = Math.abs(amount) + " " + config.currency.name;
 		if(amount >= 0){ output = output + " given to " + target + ".";}
 		else { output = output + " taken from " + target + ".";}
 		return output;
 	},
+	//Generates the string associated with a users total viewing time
 	timeSpent : function(name, amount, timeWatched){
 		var output = name + " has " + amount + " " + config.currency.name + " " + name + " and has spent ";
 		var days =  Math.floor(timeWatched/24/60);
@@ -36,6 +39,7 @@ var currencyStringHelper = {
 
 var Currency = function () {};
 
+//Do a bulk operation to give currency to everyone in the channel 
 Currency.prototype.modifyAllinChat = function(amount){
 	Twitch.getChatterList(function(chatters){
 		var members = mongoose.model('Member').collection;
@@ -57,6 +61,7 @@ Currency.prototype.modifyAllinChat = function(amount){
 			}
 		}
 		if (bulk.length > 0) {
+			//Make a system log but don't announce it to chat
 			bulk.execute(function(err,result) {
 		       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with Audience updates: " + err); }
 		       else { console.log("<--TWITCH BOT--> Audience table updated"); }
@@ -65,7 +70,9 @@ Currency.prototype.modifyAllinChat = function(amount){
 	});
 };
 
+//Add or remove currency from chat
 Currency.prototype.modifyCurrency = function(target, amount){
+	//Check to see if we're targeting the entire chat or just an individual
 	if(target === "all"){
 		this.modifyAllinChat(amount);
 		var output = currencyStringHelper(target, amount);
@@ -95,7 +102,7 @@ Currency.prototype.modifyCurrency = function(target, amount){
 	}
 };
 
-//str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
+//Return and output a user's current currency count 
 Currency.prototype.returnCurrencyCount = function(target, args){
 	var members = mongoose.model('Member');
 	members.findOne({'name': target}, function(err, doc){

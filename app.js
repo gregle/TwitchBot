@@ -12,21 +12,25 @@ var Timers = require('./libs/timers.js');
 
 var botUser = options.user;
 
+//Check to see if a user is a mod or the channel's owner
 var isUserMod = function(channel, user){
 	return (user["user-type"] === "mod" || user.username === channel.replace("#", ""));
 };
 
+//Once the client connects announce it's presence and start the timers
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
 	Timers.startTimers();
 });
 
-//This is runs with every line of chat
+//With every line of chat
 Twitch.client.on('chat', function(channel, user, message, self){
-	//if the first character of the message is an exclamation mark it's probably a command
+	//If the first character of the message is an exclamation mark it's probably a command
 	if(message.indexOf('!') === 0){
-		//split the message the first value will be the command, subsequent values will be the arguments
+		//Split the message, the first value will be the command, subsequent values will be the arguments
 		var msgArr = message.toLowerCase().split(" ");
+
+		//Triggers all things related to !command
 		if(msgArr[0] === "!command"){
 			// Username is a mod or username is the broadcaster..
 			if (isUserMod(channel, user)){
@@ -41,11 +45,14 @@ Twitch.client.on('chat', function(channel, user, message, self){
 				Twitch.client.action(user['display-name'] + ", only mods can use that command");
 			}
 		}
+		//Self identifying command
 		else if(msgArr[0] === "!bot"){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
+		//Currency commands
 		else if(msgArr[0] === "!" + options.currency.name){
 			if(isUserMod(channel, user) && msgArr[1]){ 
+				//Add or remove works off of the same function so we just need to either modify it to be positive or negative
 				if(msgArr[1] === "add" || msgArr[1] === "rem"){
 					var modifier = 1;
 					if ( msgArr[1] === "rem" ) {modifier = -1;}
@@ -59,6 +66,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 				Currency.returnCurrencyCount(user['display-name'].toLowerCase());
 			}
 		}
+		//Anything else must be an attempt to find a command in the command collection
 		else{
 			mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {
 			    if (err) { Twitch.client.action(botUser, 'There was a problem'); console.log(err);}

@@ -3,12 +3,14 @@ var Twitch = require('../libs/twitch.js');
 
 var Commands = function () {};
 
+//Create a command and push it into the DB
 Commands.prototype.createCmd = function(keyword, output){
-
+  //Ensure the keyword starts with an exclamation mark
   if (keyword.indexOf('!') !== 0){
     keyword = '!' + keyword;
   }
 
+  //Create and insert a command
   var command = { 
     "keyword": keyword, 
     "output": output,
@@ -29,6 +31,7 @@ Commands.prototype.createCmd = function(keyword, output){
   });
 };
 
+//Removes a command from the DB
 Commands.prototype.removeCmd = function(keyword){
   var commands = mongoose.model('Command');
   commands.find({ "keyword": keyword }).remove(function(){
@@ -36,6 +39,7 @@ Commands.prototype.removeCmd = function(keyword){
   });
 };
 
+//Processes the command string and fills in the variables
 //str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
 Commands.prototype.processString = function(str, args){
   var output = str;

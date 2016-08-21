@@ -3,6 +3,7 @@ var Twitch = require('../libs/twitch.js');
 
 var Audience = function () {};
 
+//Use the list of chatters to do a bulk DB update
 var updateAudiencesDB = function(chatters){
 	var members = mongoose.model('Member').collection;
 
@@ -15,7 +16,7 @@ var updateAudiencesDB = function(chatters){
 		    	.update({
 		    		$setOnInsert: { 
 		    			firstSeen : new Date().toISOString(),
-		    			currency : 0,
+		    			currency : 0
 		    		 },
 		    		$set: { moderator: ( attributeName === "moderators" ),
 		    				lastSeen : new Date().toISOString() },
@@ -31,6 +32,7 @@ var updateAudiencesDB = function(chatters){
 	}
 };
 
+//Get everyone that's in the twitch chat and update their DB entries
 Audience.prototype.createUpdateMembers = function(){
 	Twitch.getChatterList(updateAudiencesDB);
 };
