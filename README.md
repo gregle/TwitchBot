@@ -151,4 +151,4 @@ Describes the bot origin
 	!firstSeen
 	\\returns: gregle was first seen on Sun Aug 21 2016
 
-Returns when the target was first seen in chat
+Returns when the user was first seen in chat
