@@ -34,6 +34,9 @@ var currencyStringHelper = {
 		}
 		output = output + " here!";
 		return output;
+	},
+	problem : function(){
+		return "There was a problem, no " + config.currency.name + " given.";
 	}
 };
 
@@ -63,8 +66,8 @@ Currency.prototype.modifyAllinChat = function(amount){
 		if (bulk.length > 0) {
 			//Make a system log but don't announce it to chat
 			bulk.execute(function(err,result) {
-		       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with Audience updates: " + err); }
-		       else { console.log("<--TWITCH BOT--> Audience table updated"); }
+		       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with Currency updates: " + err); }
+		       else { console.log("<--TWITCH BOT--> Currency updated"); }
 		    });
 		}
 	});
@@ -93,11 +96,14 @@ Currency.prototype.modifyCurrency = function(target, amount){
 			function(err, doc){
 			    if (err) {
 			        console.error("there was a problem modifying currency Error JSON:", JSON.stringify(err, null, 2));
-			        Twitch.sendChatMsg("There was a problem, no " + config.currency.name + " given.");
-			     } else {
-					var output = currencyStringHelper.modify(target, amount);
-					Twitch.sendChatMsg(output);
-			     }
+			        Twitch.sendChatMsg(currencyStringHelper.problem());
+			     } 
+			     else if(doc === null){
+			     	Twitch.sendChatMsg(currencyStringHelper.problem());
+			    }
+			    else {
+					Twitch.sendChatMsg(currencyStringHelper.modify(target, amount));
+			    }
 		});
 	}
 };
@@ -106,18 +112,16 @@ Currency.prototype.modifyCurrency = function(target, amount){
 Currency.prototype.returnCurrencyCount = function(target, args){
 	var members = mongoose.model('Member');
 	members.findOne({'name': target}, function(err, doc){
-		var output = "";
 		if (err) {
 			if(err){console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));}
-			output = doc.name + ", there was a problem getting currency";
+			Twitch.sendChatMsg(doc.name + ", there was a problem getting currency");
 		} 
 		else if (doc === null){
-			output = "The targeted user could not be found";
+			Twitch.sendChatMsg("The targeted user could not be found");
 		}
 		else {
-			output = currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched);
+			Twitch.sendChatMsg(currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched));
 		}
-		Twitch.sendChatMsg(output);
 	});
 };
 

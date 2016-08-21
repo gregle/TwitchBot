@@ -1,6 +1,21 @@
 var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
 
+//Processes the command string and fills in the variables
+//str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
+var processString = function(str, args){
+  if(str === ""){return " ";}
+  console.log(str + args);
+  var output = str;
+  for(var i = 0; i < args.length; i++){
+    var re = new RegExp('{('+ i +')}', 'g');
+    output = output.replace(re, args[i]);
+  }
+  var removePlaceholders = new RegExp('{([0-9])}', 'g');
+  output = output.replace(removePlaceholders, '');
+  return output;
+};
+
 var Commands = function () {};
 
 //Create a command and push it into the DB
@@ -39,17 +54,14 @@ Commands.prototype.removeCmd = function(keyword){
   });
 };
 
-//Processes the command string and fills in the variables
-//str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
-Commands.prototype.processString = function(str, args){
-  var output = str;
-  for(var i = 0; i < args.length; i++){
-    var re = new RegExp('{('+ i +')}', 'g');
-    output = output.replace(re, args[i]);
-  }
-  var removePlaceholders = new RegExp('{([0-9])}', 'g');
-  output = output.replace(removePlaceholders, '');
-  return output;
+Commands.prototype.getCommand = function(msgArr){
+  mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {
+      if (err) { Twitch.sendChatMsg('There was a problem'); console.log(err);}
+      else {
+          if(data.length > 0) {
+            Twitch.sendChatMsg(processString(data[0].output, msgArr.slice(1)));
+          }
+      }
+  });
 };
-
 module.exports = new Commands();
