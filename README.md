@@ -88,7 +88,7 @@ You can have an unlimited number of variables and reuse those variables througho
 	Dear Gregle, I think you're cute Gregle. Love NotGregle `
 
 #### EDIT (mods/streamer only)
-	Adding a new command with the same keyword as an exiting command will overwrite the previous one.
+Adding a new command with the same keyword as an exiting command will overwrite the previous one.
 
 #### REMOVE (mods/streamer only)
 	!command rem !{KEYWORD}
@@ -99,40 +99,49 @@ Removes the command with the defined keyword
 #### VIEW TOTAL
 	!{currency-name}
 Will display the invoking user's currency
-	
 	//when called with:
 	!whatevers
 	//will return:
 	gregle has 4260 whatevers and has spent 7 Days 9 Hours 35 Minutes here!
 
 #### VIEW OTHER'S TOTAL (mods/streamers only)
-	```!{currency-name} {target}```
-	Will display the invoking user's currency
-	EX: ```!whatevers notGregle````
-	Returns: ```notGregle has 4260 whatevers and has spent 7 Days 9 Hours 35 Minutes here!```
+	!{currency-name} {target}
+Will display the invoking user's currency
+	//when called with:
+	!whatevers notGregle
+	//will return:
+	notGregle has 4260 whatevers and has spent 7 Days 9 Hours 35 Minutes here!
 
 #### ADD (mods/streamers only)
-	```!{currancy-name} add {target} {amount}```
-	Give target user a defined amount currancy
-	EX: ```!whatevers add Gregle 100```
-	Returns: ```100 whatevers given to gregle.```
+	!{currancy-name} add {target} {amount}
+Give target user a defined amount currancy
+	//when called with:
+	!whatevers add Gregle 100
+	//will return:
+	100 whatevers given to gregle.
 
-	```!{currancy-name} add all {amount}```
-	Give target user a defined amount currancy
-	EX: ```!whatevers add all 100```
-	Returns: ```100 whatevers given to all.```
+	!{currancy-name} add all {amount}
+Give target user a defined amount currancy
+	//when called with:
+	!whatevers add all 100
+	//will return:
+	100 whatevers given to all.
 
 #### REMOVE (mods/streamers only)
-	```!{currancy-name} rem {target} {amount}```
-	Give target user a defined amount currancy
-	EX: ```!whatevers rem Gregle 100```
-	Returns: ```100 whatevers taken from gregle.```
+	!{currancy-name} rem {target} {amount}
+	//when called with:
+Garget user a defined amount currancy
+	!EX: !whatevers rem Gregle 100
+	//will return:
+	100 whatevers taken from gregle.
 
-	```!{currancy-name} rem all {amount}```
-	Give target user a defined amount currancy
-	EX: ```!whatevers rem all 100```
-	Returns: ```100 whatevers taken from all.```
+	!{currancy-name} rem all {amount}
+Give target user a defined amount currancy
+	//when called with:
+	!whatevers rem all 100
+	//will return:
+	100 whatevers taken from all.
 
 ### MISC
-	```!bot
-	\\returns: My purpose is unknown.```
+	!bot
+	\\returns: My purpose is unknown.
