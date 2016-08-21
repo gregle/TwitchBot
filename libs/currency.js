@@ -46,9 +46,14 @@ Currency.prototype.modifyAllinChat = function(amount){
 			    bulk.find({ name: chatters[attributeName][i] })
 					.upsert()
 			    	.update({
-			    		$currentDate: { lastSeen : true },
-			    		$inc: { currency: amount }
-					});
+		    		$setOnInsert: { 
+		    			firstSeen : new Date().toISOString(),
+		    			moderator: false,
+		    			timeWatched: 0
+    		 		},
+		    		$set: { lastSeen : new Date().toISOString() },
+					$inc: { currency: amount }
+				});
 			}
 		}
 		if (bulk.length > 0) {
@@ -70,8 +75,13 @@ Currency.prototype.modifyCurrency = function(target, amount){
 		var members = mongoose.model('Member');
 		members.findOneAndUpdate( 
 			{name: target }, 
+			{$setOnInsert: { 
+    			firstSeen : new Date().toISOString(),
+    			moderator: false,
+    			timeWatched: 0
+	 		}},
 			{$inc: { currency: amount },
-			 $currentDate: { lastSeen : true }},
+			 $set: { lastSeen : new Date().toISOString()}},
 			{upsert:true}, 
 			function(err, doc){
 			    if (err) {
@@ -90,7 +100,8 @@ Currency.prototype.returnCurrencyCount = function(target, args){
 	var members = mongoose.model('Member');
 	members.findOne({'name': target}, function(err, doc){
 		if (err) {
-			console.error("there was a problem modifying currency Error JSON:", JSON.stringify(err, null, 2));
+			console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));
+			Twitch.client.action(config.user, doc.name + ", there was a problem getting currency" );
 		} else {
 			var output = currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched);
 			Twitch.client.action(config.user, output);

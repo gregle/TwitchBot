@@ -21,10 +21,11 @@ Twitch.client.on("connected", function(address, port)	{
 	Timers.startTimers();
 });
 
+//This is runs with every line of chat
 Twitch.client.on('chat', function(channel, user, message, self){
-	//if the first oart of the message is an exclimation mark it's probably a command
+	//if the first character of the message is an exclamation mark it's probably a command
 	if(message.indexOf('!') === 0){
-		//split the message the first value will be the command, subsiquent values will be the arguments
+		//split the message the first value will be the command, subsequent values will be the arguments
 		var msgArr = message.toLowerCase().split(" ");
 		if(msgArr[0] === "!command"){
 			// Username is a mod or username is the broadcaster..

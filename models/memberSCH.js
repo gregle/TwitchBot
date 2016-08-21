@@ -6,8 +6,8 @@ var memberSchema = new Schema( {
 	currency: 		{type: Number, default: 0},
 	timeWatched: 	{type: Number, default: 0},
 	moderator: 		{type: Boolean, default: false},
-	whitelist: 		{type: Boolean, default: false},
-	lastSeen: 		{type: Date, default: Date.now}
+	lastSeen: 		{type: Date, default: Date.now},
+	firstSeen: 		{type: Date, default: Date.now}
 });
 
 mongoose.model('Member', memberSchema);
