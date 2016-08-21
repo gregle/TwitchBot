@@ -56,12 +56,12 @@ The bot should be running in the specified channel! :D
 ### Custom Commands
 
 #### USAGE
-	```!{command-name} {optional-argument0} ...```
-	Will call the command with the keyword {command-name} and insert the optional arguments into the response.
+	!{command-name} {optional-argument0} ...
+Will call the command with the keyword {command-name} and insert the optional arguments into the response.
 
-	EX: ``` !caps ```
-	EX: ``` !caps Gregle ```
-	EX: ``` !loveLetter Gregle NotGregle ```
+EX: !caps
+EX: !caps Gregle
+EX: !loveLetter Gregle NotGregle
 
 	Any extra variables will not be included.
 	Missing variables will mean nothing is inserted in the placeholder.
