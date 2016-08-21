@@ -44,7 +44,7 @@ Audience.prototype.getFirstSeen = function(target){
 	//Find the targeted user and announce when they were first seen
 	Member.findOne({ name: target }, 'name firstSeen', function (err, member) {
 	  if (err) return handleError(err);
-	  if(member) { Twitch.sendChatMsg(member.name + ' was first seen on ' + member.firstSeen); }
+	  if(member) { Twitch.sendChatMsg(member.name + ' was first seen on ' + member.firstSeen.toDateString()); }
 	});
 };
 
