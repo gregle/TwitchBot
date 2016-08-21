@@ -10,8 +10,6 @@ var Audience = require('./libs/audience.js');
 var Currency = require('./libs/currency.js');
 var Timers = require('./libs/timers.js');
 
-var botUser = options.user;
-
 //Check to see if a user is a mod or the channel's owner
 var isUserMod = function(channel, user){
 	return (user["user-type"] === "mod" || user.username === channel.replace("#", ""));
@@ -19,7 +17,7 @@ var isUserMod = function(channel, user){
 
 //Once the client connects announce it's presence and start the timers
 Twitch.client.on("connected", function(address, port)	{
-	Twitch.client.action(botUser, "Hello world.");
+	Twitch.sendChatMsg("Hello world.");
 	Timers.startTimers();
 });
 
@@ -29,7 +27,6 @@ Twitch.client.on('chat', function(channel, user, message, self){
 	if(message.indexOf('!') === 0){
 		//Split the message, the first value will be the command, subsequent values will be the arguments
 		var msgArr = message.toLowerCase().split(" ");
-
 		//Triggers all things related to !command
 		if(msgArr[0] === "!command"){
 			// Username is a mod or username is the broadcaster..
@@ -42,12 +39,15 @@ Twitch.client.on('chat', function(channel, user, message, self){
 				}
 			}
 			else{
-				Twitch.client.action(user['display-name'] + ", only mods can use that command");
+				Twitch.sendChatMsg(user['display-name'] + ", only mods can use that command");
 			}
+		}
+		else if(msgArr[0] === "!firstseen"){
+			Audience.getFirstSeen(user.username);
 		}
 		//Self identifying command
 		else if(msgArr[0] === "!bot"){
-			Twitch.client.action(botUser, " My purpose is unknown.");
+			Twitch.sendChatMsg("My purpose is unknown.");
 		}
 		//Currency commands
 		else if(msgArr[0] === "!" + options.currency.name){
@@ -69,11 +69,11 @@ Twitch.client.on('chat', function(channel, user, message, self){
 		//Anything else must be an attempt to find a command in the command collection
 		else{
 			mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {
-			    if (err) { Twitch.client.action(botUser, 'There was a problem'); console.log(err);}
+			    if (err) { Twitch.sendChatMsg('There was a problem'); console.log(err);}
 			    else {
 			        if(data.length > 0) { 
 			        	var output = Commands.processString(data[0].output, msgArr.slice(1));
-			        	Twitch.client.action(botUser, output);
+			        	Twitch.sendChatMsg(output);
 			        }
 			    }
 			});

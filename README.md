@@ -144,4 +144,11 @@ Take from all users a defined {amount} of currency.
 
 ### MISC
 	!bot
-	\\returns: My purpose is unknown.
+	\\returns: My purpose is unknown.  
+
+Describes the bot origin
+
+	!firstSeen
+	\\returns: gregle was first seen on Sun Aug 21 2016
+
+Returns when the target was first seen in chat

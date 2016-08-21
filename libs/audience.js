@@ -37,4 +37,15 @@ Audience.prototype.createUpdateMembers = function(){
 	Twitch.getChatterList(updateAudiencesDB);
 };
 
+//Show when an audience member was First Seen in chat
+Audience.prototype.getFirstSeen = function(target){
+	var Member = mongoose.model('Member');
+
+	//Find the targeted user and announce when they were first seen
+	Member.findOne({ name: target }, 'name firstSeen', function (err, member) {
+	  if (err) return handleError(err);
+	  if(member) { Twitch.sendChatMsg(member.name + ' was first seen on ' + member.firstSeen); }
+	});
+};
+
 module.exports = new Audience();

@@ -76,7 +76,7 @@ Currency.prototype.modifyCurrency = function(target, amount){
 	if(target === "all"){
 		this.modifyAllinChat(amount);
 		var output = currencyStringHelper.modify(target, amount);
-		Twitch.client.action(config.user, output);
+		Twitch.sendChatMsg(output);
 	}
 	else{
 		var members = mongoose.model('Member');
@@ -93,10 +93,10 @@ Currency.prototype.modifyCurrency = function(target, amount){
 			function(err, doc){
 			    if (err) {
 			        console.error("there was a problem modifying currency Error JSON:", JSON.stringify(err, null, 2));
-			        Twitch.client.action(config.user, "There was a problem, no " + config.currency.name + " given.");
+			        Twitch.sendChatMsg("There was a problem, no " + config.currency.name + " given.");
 			     } else {
 					var output = currencyStringHelper.modify(target, amount);
-					Twitch.client.action(config.user, output);
+					Twitch.sendChatMsg(output);
 			     }
 		});
 	}
@@ -108,10 +108,10 @@ Currency.prototype.returnCurrencyCount = function(target, args){
 	members.findOne({'name': target}, function(err, doc){
 		if (err) {
 			console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));
-			Twitch.client.action(config.user, doc.name + ", there was a problem getting currency" );
+			Twitch.sendChatMsg(doc.name + ", there was a problem getting currency" );
 		} else {
 			var output = currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched);
-			Twitch.client.action(config.user, output);
+			Twitch.sendChatMsg(output);
 		}
 	});
 };

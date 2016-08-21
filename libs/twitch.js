@@ -6,7 +6,6 @@ var Twitch = function () {};
 
 Twitch.prototype.client = new tmi.client(options.twitch);
 Twitch.prototype.client.connect();
-Twitch.prototype.botUser = options.user;
 Twitch.prototype.clientID = options.clientID;
 Twitch.prototype.channel = options.twitch.channels[0].substring(1);
 
@@ -47,6 +46,11 @@ Twitch.prototype.getChatterList = function(callback, cbOptions) {
 			callback(chatters);
 		}
 	});
+};
+
+//Sends a message to twitch chat. Future work is to group messages and send them all at once in order to not send too many messages too quickly
+Twitch.prototype.sendChatMsg = function(msg){
+	this.client.action(this.channel, msg);
 };
 
 module.exports = new Twitch();
