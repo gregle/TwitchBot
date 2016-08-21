@@ -59,48 +59,51 @@ The bot should be running in the specified channel! :D
 	!{command-name} {optional-argument0} ...
 Will call the command with the keyword {command-name} and insert the optional arguments into the response.
 
-EX: !caps
-EX: !caps Gregle
-EX: !loveLetter Gregle NotGregle
+	EX: !caps
+	EX: !caps Gregle
+	EX: !loveLetter Gregle NotGregle
 
-	Any extra variables will not be included.
-	Missing variables will mean nothing is inserted in the placeholder.
-	Variables can't be skipped.
+Any extra variables will not be included.
+Missing variables will mean nothing is inserted in the placeholder.
+Variables can't be skipped.
 
 #### ADD (mods/streamer only)
-```!command add !{KEYWORD} {COMMAND RESPONSE}```
+	!command add !{KEYWORD} {COMMAND RESPONSE}	
 Creates a custom command with the defined keyword that returns the defined response
 
-	Command Response can have variables inserted into it using {index} to define location
+Command Response can have variables inserted into it using {index} to define location
 
-	``` !command add !caps {0}, DON'T WRITE IN CAPS ```
-	when called with:
-	``` !caps Gregle ```
-	will return:
-	``` Gregle, DON'T WRITE IN CAPS ```
+	!command add !caps {0}, DON'T WRITE IN CAPS 
+	//when called with:
+	!caps Gregle 
+	//will return:
+	Gregle, DON'T WRITE IN CAPS 
 
-	You can have an unlimited number of variables and reuse those variables throughout the message. It is a good practice to include the optional variables last since there isn't a way to skip variables during usage
+You can have an unlimited number of variables and reuse those variables throughout the message. It is a good practice to include the optional variables last since there isn't a way to skip variables during usage
 
-	``` !command add !loveLetter Dear {0}, I think you're cute {0}. Love {1} ```
-	when called with:
-	``` !loveLetter Gregle NotGregle ```
-	will return:
-	```  Dear Gregle, I think you're cute Gregle. Love NotGregle ````
+	!command add !loveLetter Dear {0}, I think you're cute {0}. Love {1} 
+	//when called with:
+	!loveLetter Gregle NotGregle 
+	//will return:
+	Dear Gregle, I think you're cute Gregle. Love NotGregle `
 
 #### EDIT (mods/streamer only)
 	Adding a new command with the same keyword as an exiting command will overwrite the previous one.
 
 #### REMOVE (mods/streamer only)
-``` !command rem !{KEYWORD} ```
+	!command rem !{KEYWORD}
 Removes the command with the defined keyword
 
 ### CURRENCY
 
 #### VIEW TOTAL
-	```!{currency-name}```
-	Will display the invoking user's currency
-	EX: ```!whatevers````
-	Returns: ```gregle has 4260 whatevers and has spent 7 Days 9 Hours 35 Minutes here!```
+	!{currency-name}
+Will display the invoking user's currency
+	
+	//when called with:
+	!whatevers
+	//will return:
+	gregle has 4260 whatevers and has spent 7 Days 9 Hours 35 Minutes here!
 
 #### VIEW OTHER'S TOTAL (mods/streamers only)
 	```!{currency-name} {target}```
