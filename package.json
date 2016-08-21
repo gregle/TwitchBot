@@ -1,6 +1,6 @@
 {
   "name": "twitchbot",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "twitch bot",
   "main": "twitchbot.js",
   "scripts": {
@@ -13,8 +13,8 @@
   "author": "Gregle",
   "license": "MIT",
   "dependencies": {
-    "mongodb": "^2.1.18",
-    "mongoose": "^4.5.5",
-    "tmi.js": "0.0.29"
+    "mongodb": "^2.2.7",
+    "mongoose": "^4.5.9",
+    "tmi.js": "^1.0.0"
   }
 }

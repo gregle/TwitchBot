@@ -48,8 +48,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list from Twitch");
 		}
 		else{
-	    	var response = JSON.parse(body);
-			if (response.stream === null) { 
+			if (body.stream === null) { 
 		        //The stream is offline push false into the callback
 				callback(false);
 		    } else {
@@ -70,9 +69,8 @@ Twitch.prototype.getChatterList = function(callback, cbOptions) {
 			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list");
 		}
 		else{
-			//Turn it into a JSON and shove it into the callback
-			var chatters = JSON.parse(body).chatters;
-			callback(chatters);
+			//Shove it into the callback
+			callback(body.chatters);
 		}
 	});
 };
@@ -87,14 +85,13 @@ Twitch.prototype.getStreamUptime = function(callback) {
 			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list from Twitch");
 		}
 		else{
-	    	var response = JSON.parse(body);
-			if (response.stream === null) { 
+			if (body.stream === null) { 
 		        //The stream is offline push false into the callback
 				callback('The stream is offline');
 		    } else {
 		        //The stream is online, push true into the callback
-		        var timeDiff = Date.now() - new Date(response.stream.created_at);
-		    	callback(response.stream.channel.name + ' has been live for ' + calcDateDiffString(timeDiff));
+		        var timeDiff = Date.now() - new Date(body.stream.created_at);
+		    	callback(body.stream.channel.name + ' has been live for ' + calcDateDiffString(timeDiff));
 		    }
 		}
 	});
