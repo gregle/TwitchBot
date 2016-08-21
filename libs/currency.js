@@ -106,13 +106,18 @@ Currency.prototype.modifyCurrency = function(target, amount){
 Currency.prototype.returnCurrencyCount = function(target, args){
 	var members = mongoose.model('Member');
 	members.findOne({'name': target}, function(err, doc){
+		var output = "";
 		if (err) {
-			console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));
-			Twitch.sendChatMsg(doc.name + ", there was a problem getting currency" );
-		} else {
-			var output = currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched);
-			Twitch.sendChatMsg(output);
+			if(err){console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));}
+			output = doc.name + ", there was a problem getting currency";
+		} 
+		else if (doc === null){
+			output = "The targeted user could not be found";
 		}
+		else {
+			output = currencyStringHelper.timeSpent(doc.name, doc.currency, doc.timeWatched);
+		}
+		Twitch.sendChatMsg(output);
 	});
 };
 
