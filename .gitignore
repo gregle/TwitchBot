@@ -32,9 +32,5 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-#floobits stuff
-.floo
-.flooignore
-
 #ignoring the options so we don't overwrite it
 config.json
