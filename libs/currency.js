@@ -13,7 +13,7 @@ var currencyStringHelper = {
 	},
 	//Generates the string associated with a users total viewing time
 	timeSpent : function(name, amount, timeWatched){
-		var output = name + " has " + amount + " " + config.currency.name + " " + name + " and has spent ";
+		var output = name + " has " + amount + " " + config.currency.name + " and has spent ";
 		var days =  Math.floor(timeWatched/24/60);
 		if (days >= 1 ){
 			output = output + days + " Day";
@@ -75,7 +75,7 @@ Currency.prototype.modifyCurrency = function(target, amount){
 	//Check to see if we're targeting the entire chat or just an individual
 	if(target === "all"){
 		this.modifyAllinChat(amount);
-		var output = currencyStringHelper(target, amount);
+		var output = currencyStringHelper.modify(target, amount);
 		Twitch.client.action(config.user, output);
 	}
 	else{
@@ -86,9 +86,9 @@ Currency.prototype.modifyCurrency = function(target, amount){
     			firstSeen : new Date().toISOString(),
     			moderator: false,
     			timeWatched: 0
-	 		}},
-			{$inc: { currency: amount },
-			 $set: { lastSeen : new Date().toISOString()}},
+	 		},
+			$inc: { currency: amount },
+			$set: { lastSeen : new Date().toISOString()}},
 			{upsert:true}, 
 			function(err, doc){
 			    if (err) {

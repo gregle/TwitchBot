@@ -37,7 +37,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 				if (msgArr[1] && msgArr[1] === 'add'){
 					Commands.createCmd( msgArr[2], message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ).trim());
 				}
-				if (msgArr[1] && msgArr[1] === 'remove'){
+				if (msgArr[1] && msgArr[1] === 'rem'){
 					Commands.removeCmd( msgArr[2] );
 				}
 			}
@@ -56,7 +56,7 @@ Twitch.client.on('chat', function(channel, user, message, self){
 				if(msgArr[1] === "add" || msgArr[1] === "rem"){
 					var modifier = 1;
 					if ( msgArr[1] === "rem" ) {modifier = -1;}
-					else {Currency.modifyCurrency(msgArr[2], (parseInt(msgArr[3]) * modifier));}
+					Currency.modifyCurrency(msgArr[2], (parseInt(msgArr[3]) * modifier));
 				}
 				else{
 					Currency.returnCurrencyCount(msgArr[1].toLowerCase());
