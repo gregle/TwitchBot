@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var autoCmdsSchema = new Schema( {
+var autoCmdSchema = new Schema( {
 	keyword:		String,
 	params:			String,
 	minutes:		Number,
@@ -10,4 +10,4 @@ var autoCmdsSchema = new Schema( {
 	offline:		Boolean
 });
 
-mongoose.model('autoCmd', autoCmdsSchema);
+mongoose.model('AutoCmd', autoCmdSchema);

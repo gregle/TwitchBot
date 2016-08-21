@@ -16,9 +16,9 @@ Commands.prototype.createCmd = function(keyword, output){
     "follower": true,
     "subscriber": true,
     "moderator": true };
-  var collection = mongoose.model('Command');
+  var commands = mongoose.model('Command');
 
-  collection.findOneAndUpdate( { "keyword": keyword }, command, {upsert:true}, function(err, doc){
+  commands.findOneAndUpdate( { "keyword": keyword }, command, {upsert:true}, function(err, doc){
     if (err) {
         console.error("insertItem failed:in collection command. Entry: " + JSON.stringify(keyword, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
         Twitch.client.action(Twitch.botUser, "There was a problem adding command " + keyword);
@@ -30,8 +30,8 @@ Commands.prototype.createCmd = function(keyword, output){
 };
 
 Commands.prototype.removeCmd = function(keyword){
-  var collection = mongoose.model('Command');
-  collection.find({ "keyword": keyword }).remove(function(){
+  var commands = mongoose.model('Command');
+  commands.find({ "keyword": keyword }).remove(function(){
     Twitch.client.action(Twitch.botUser, "Command " + keyword + " removed");
   });
 };

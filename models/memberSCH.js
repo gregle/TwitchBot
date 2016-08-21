@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var viewersSchema = new Schema( {
+var memberSchema = new Schema( {
 	name: 			String,
 	currency: 		{type: Number, default: 0},
 	timeWatched: 	{type: Number, default: 0},
@@ -10,4 +10,4 @@ var viewersSchema = new Schema( {
 	lastSeen: 		{type: Date, default: Date.now}
 });
 
-mongoose.model('Viewer', viewersSchema);
+mongoose.model('Member', memberSchema);

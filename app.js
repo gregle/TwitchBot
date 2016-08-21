@@ -7,6 +7,7 @@ var db = require('./libs/database.js');
 var Twitch = require('./libs/twitch.js');
 var Commands = require('./libs/commands.js');
 var Audience = require('./libs/audience.js');
+var Currency = require('./libs/currency.js');
 var Timers = require('./libs/timers.js');
 
 var botUser = options.user;
@@ -25,18 +26,29 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			// Username is a mod or username is the broadcaster..
 			if (user["user-type"] === "mod" || user.username === channel.replace("#", "")){
 				if (msgArr[1] && msgArr[1] === 'add'){
-					Commands.createCmd( msgArr[2], message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ));
+					Commands.createCmd( msgArr[2], message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ).trim());
 				}
 				if (msgArr[1] && msgArr[1] === 'remove'){
 					Commands.removeCmd( msgArr[2] );
 				}
 			}
 			else{
-				Twitch.client.action(user ['display-name'] + ", only mods can use that command");
+				Twitch.client.action(user['display-name'] + ", only mods can use that command");
 			}
 		}
 		else if(msgArr[0] === "!bot"){
 			Twitch.client.action(botUser, " My purpose is unknown.");
+		}
+		else if(msgArr[0] === "!" + options.currency.name){
+			if(msgArr[1] === "add"){
+				Currency.modifyCurrency(msgArr[2].toLowerCase(), parseInt(msgArr[3]));
+			}
+			else if(msgArr[1] === "rem"){
+				Currency.modifyCurrency(msgArr[2].toLowerCase(), parseInt(msgArr[3])*-1);
+			}
+			else{
+				Currency.returnCurrencyCount(user['display-name'].toLowerCase());
+			}
 		}
 		else{
 			mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {

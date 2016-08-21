@@ -5,14 +5,17 @@ var Config = require("../config.json");
 
 var Timers = function () {};
 
-//check viewers every minute
 Timers.prototype.updateAudience = null;
 Timers.prototype.updateCurrancy = null;
 Timers.prototype.getStatus = null;
 Timers.prototype.onlineStatus = null;
 
 Timers.prototype.startTimers = function(){
+	//Check the stream status on bot start
 	this.checkStatus();
+
+	//Start the timer that runs checkStatus which is what is used to determine the 
+	//	the rates of the other timers.
 	this.getStatus = setInterval(function() {
 		this.checkStatus();
 	}, 1000 * 60 * Config.twitch.statusCheckRate );
@@ -29,18 +32,10 @@ Timers.prototype.checkStatus = function(){
 };
 
 Timers.prototype.setAudienceTimer = function(){
-	var timer = 1000 * 60;
-	if(this.onlineStatus){
-		timer = timer * Config.audience.onlineRate;
-	}
-	else{
-		timer = timer * Config.audience.offlineRate;
-	}
-	clearInterval(this.updateAudience);
-	updateAudience = setInterval(function() {
+	this.updateAudience = setInterval(function() {
 	    Audience.createUpdateMembers();
-	}, timer);
-	console.log("<--TWITCH BOT-->: Started " + timer/60/1000 + " minute updateAudience timer");
+	}, 1000 * 60 * Config.audience.updateRate );
+	console.log("<--TWITCH BOT-->: Started " + Config.audience.updateRate + " minute updateAudience timer");
 };
 
 Timers.prototype.setCurrencyTimer = function(){
@@ -52,8 +47,8 @@ Timers.prototype.setCurrencyTimer = function(){
 		timer = timer * Config.currency.offlineRate;
 	}
 	clearInterval(this.updateCurrancy);
-	updateCurrancy = setInterval(function() {
-	    Currency.modifyCurrency("all", 1);
+	this.updateCurrancy = setInterval(function() {
+	    Currency.modifyAllinChat(Config.currency.amountPerTick);
 	}, timer);
 	console.log("<--TWITCH BOT-->: Started " + timer/60/1000 + " minute updateCurrency timer");
 };

@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var commandsSchema = new Schema( {
+var commandSchema = new Schema( {
 	keyword:{
 		type: String,
 		unique: true
@@ -13,6 +13,4 @@ var commandsSchema = new Schema( {
 	moderator:		Boolean
 });
 
-var Command = mongoose.model('Command', commandsSchema);
-
-module.exports = Command;
+mongoose.model('Command', commandSchema);

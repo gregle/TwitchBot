@@ -16,7 +16,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve viewer list");
+			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list");
 		}
 		else{
 	    	var response = JSON.parse(body);
@@ -31,13 +31,13 @@ Twitch.prototype.isStreamOnline = function(callback){
 	});
 };
 
-Twitch.prototype.getChatterList = function(callback) {
+Twitch.prototype.getChatterList = function(callback, cbOptions) {
 	this.client.api({
 		url: "http://tmi.twitch.tv/group/user/" + this.channel + "/chatters",
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve viewer list");
+			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list");
 		}
 		else{
 			var chatters = JSON.parse(body).chatters;
