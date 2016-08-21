@@ -157,3 +157,8 @@ Returns when the user was first seen in chat
 	\\returns: {phrase}
 
 The bot echos word for word the message it was sent
+
+	!uptime
+	\\returns: gregle has been live for 2 Hours 48 Minutes 9 Seconds
+
+Returns the current uptime of the stream

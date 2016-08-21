@@ -59,6 +59,12 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			var output = message.substr(message.indexOf(" ") + 1);
 			Twitch.sendChatMsg(output);
 		}
+		//Query twitch for the stream's uptime
+		else if(msgArr[0] === "!uptime"){
+			Twitch.getStreamUptime(function(responseStr){
+				Twitch.sendChatMsg(responseStr);
+			});
+		}
 		//Self identifying command
 		else if(msgArr[0] === "!bot"){
 			Twitch.sendChatMsg("My purpose is unknown.");
