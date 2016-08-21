@@ -58,6 +58,7 @@ The bot should be running in the specified channel! :D
 #### USAGE
 	!{command-name} {optional-argument0} ...
 Will call the command with the keyword {command-name} and insert the {optional-arguments} into the response.
+
 	!caps
 	!caps Gregle
 	!loveLetter Gregle NotGregle
