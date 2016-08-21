@@ -12,6 +12,10 @@ var Timers = require('./libs/timers.js');
 
 var botUser = options.user;
 
+var isUserMod = function(channel, user){
+	return (user["user-type"] === "mod" || user.username === channel.replace("#", ""));
+};
+
 Twitch.client.on("connected", function(address, port)	{
 	Twitch.client.action(botUser, "Hello world.");
 	Timers.startTimers();
@@ -21,10 +25,10 @@ Twitch.client.on('chat', function(channel, user, message, self){
 	//if the first oart of the message is an exclimation mark it's probably a command
 	if(message.indexOf('!') === 0){
 		//split the message the first value will be the command, subsiquent values will be the arguments
-		var msgArr = message.split(" ");
+		var msgArr = message.toLowerCase().split(" ");
 		if(msgArr[0] === "!command"){
 			// Username is a mod or username is the broadcaster..
-			if (user["user-type"] === "mod" || user.username === channel.replace("#", "")){
+			if (isUserMod(channel, user)){
 				if (msgArr[1] && msgArr[1] === 'add'){
 					Commands.createCmd( msgArr[2], message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ).trim());
 				}
@@ -40,11 +44,15 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Twitch.client.action(botUser, " My purpose is unknown.");
 		}
 		else if(msgArr[0] === "!" + options.currency.name){
-			if(msgArr[1] === "add"){
-				Currency.modifyCurrency(msgArr[2].toLowerCase(), parseInt(msgArr[3]));
-			}
-			else if(msgArr[1] === "rem"){
-				Currency.modifyCurrency(msgArr[2].toLowerCase(), parseInt(msgArr[3])*-1);
+			if(isUserMod(channel, user) && msgArr[1]){ 
+				if(msgArr[1] === "add" || msgArr[1] === "rem"){
+					var modifier = 1;
+					if ( msgArr[1] === "rem" ) {modifier = -1;}
+					else {Currency.modifyCurrency(msgArr[2], (parseInt(msgArr[3]) * modifier));}
+				}
+				else{
+					Currency.returnCurrencyCount(msgArr[1].toLowerCase());
+				}
 			}
 			else{
 				Currency.returnCurrencyCount(user['display-name'].toLowerCase());

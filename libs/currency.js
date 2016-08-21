@@ -12,19 +12,19 @@ var currencyStringHelper = {
 	timeSpent : function(name, amount, timeWatched){
 		var output = name + " has " + amount + " " + config.currency.name + " " + name + " and has spent ";
 		var days =  Math.floor(timeWatched/24/60);
-		if (days > 1 ){
+		if (days >= 1 ){
 			output = output + days + " Day";
 			if (days>2) { output =  output + "s ";}
 			else {output =  output + " ";}
 		}
-		var hours = Math.floor((timeWatched-(days * 24))/60);
-		if (hours > 1 ){
+		var hours = Math.floor((timeWatched-(days *24*60))/60);
+		if (hours >= 1 ){
 			output = output + hours + " Hour";
 			if (hours>2) { output =  output + "s ";}
 			else {output =  output + " ";}
 		}
 		var minutes = (timeWatched - (days*24*60)) - (hours*60);
-		if (minutes > 1 ){
+		if (minutes >= 1 ){
 			output = output + minutes + " Minute";
 			if (minutes>2) { output =  output + "s ";}
 			else {output =  output + " ";}
