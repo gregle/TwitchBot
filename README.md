@@ -39,8 +39,7 @@ Someday it'll actually do something maybe if everyone has enough freetime/drive 
     "audience": {
         "updateRate": 1
     },
-    "MongoDBURI": "mongodb://localhost/twitchbot",
-	"user": "INSERT YOUR USERNAME HERE"
+    "MongoDBURI": "mongodb://localhost/twitchbot"
 }
 ```
 * Replace the **INSERT** statements with the appropriate settings
