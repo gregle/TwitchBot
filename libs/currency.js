@@ -88,7 +88,8 @@ Currency.prototype.modifyCurrency = function(target, amount){
 			{$setOnInsert: { 
     			firstSeen : new Date().toISOString(),
     			moderator: false,
-    			timeWatched: 0
+    			timeWatched: 0,
+    			timeouts: 0
 	 		},
 			$inc: { currency: amount },
 			$set: { lastSeen : new Date().toISOString()}},

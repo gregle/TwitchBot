@@ -24,7 +24,7 @@ Timers.prototype.startTimers = function(){
 
 //Check Stream online/offline
 Timers.prototype.checkStatus = function(){
-		Twitch.isStreamOnline(function(status){
+	Twitch.isStreamOnline(function(status){
 		console.log("<--TWITCH BOT-->: Stream Status Check: " + status);
 		if (this.onlineStatus !== status){
 			this.onlineStatus = status;
@@ -38,7 +38,7 @@ Timers.prototype.setAudienceTimer = function(){
 	this.updateAudience = setInterval(function() {
 	    Audience.createUpdateMembers();
 	}, 1000 * 60 * Config.audience.updateRate );
-	console.log("<--TWITCH BOT-->: Started " + Config.audience.updateRate + " minute updateAudience timer");
+	console.log("<--TWITCH BOT-->: Started " + Config.audience.updateRate + " minute update Audience timer");
 };
 
 //Sets and starts the timer that increment the audience's currency total defaults 1 per 15min (online) 30 min (offline)
@@ -54,7 +54,7 @@ Timers.prototype.setCurrencyTimer = function(){
 	this.updateCurrancy = setInterval(function() {
 	    Currency.modifyAllinChat(Config.currency.amountPerTick);
 	}, timer);
-	console.log("<--TWITCH BOT-->: Started " + timer/60/1000 + " minute updateCurrency timer");
+	console.log("<--TWITCH BOT-->: Started " + timer/60/1000 + " minute update Currency timer");
 };
 
 module.exports = new Timers();

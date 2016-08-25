@@ -69,6 +69,10 @@ Twitch.client.on('chat', function(channel, user, message, self){
 		else if(msgArr[0] === "!bot"){
 			Twitch.sendChatMsg("My purpose is unknown.");
 		}
+		//Show a list of the users with the most timeouts
+		else if(msgArr[0] === "!toptrolls" && isUserMod(channel, user)){
+			Audience.getTopTrolls();
+		}
 		//Currency commands
 		else if(msgArr[0] === "!" + options.currency.name){
 			if(isUserMod(channel, user) && msgArr[1]){ 
@@ -91,4 +95,8 @@ Twitch.client.on('chat', function(channel, user, message, self){
 			Commands.getCommand(message.split(" "));
 		}
 	}
+});
+
+Twitch.client.on("timeout", function (channel, username, reason, duration) {
+    Audience.incrementTrollCount(username);
 });

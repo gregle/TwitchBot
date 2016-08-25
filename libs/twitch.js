@@ -60,7 +60,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 };
 
 //Gets a current list of the members in the Twitch Chat room
-Twitch.prototype.getChatterList = function(callback, cbOptions) {
+Twitch.prototype.getChatterList = function(callback) {
 	this.client.api({
 		url: "http://tmi.twitch.tv/group/user/" + this.channel + "/chatters",
 		method: "GET"

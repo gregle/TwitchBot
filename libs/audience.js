@@ -16,7 +16,8 @@ var updateAudiencesDB = function(chatters){
 		    	.update({
 		    		$setOnInsert: { 
 		    			firstSeen : new Date().toISOString(),
-		    			currency : 0
+		    			currency : 0,
+		    			timeouts : 0
 		    		 },
 		    		$set: { moderator: ( attributeName === "moderators" ),
 		    				lastSeen : new Date().toISOString() },
@@ -46,6 +47,38 @@ Audience.prototype.getFirstSeen = function(target){
 	  if (err) return handleError(err);
 	  if(member) { Twitch.sendChatMsg(member.name + ' was first seen on ' + member.firstSeen.toDateString()); }
 	});
+};
+
+//Show the five users with the most timeouts
+Audience.prototype.getTopTrolls = function(){
+	var Member = mongoose.model('Member');
+
+	//Find the top users and report it to the chat
+	Member.find().sort({timeouts: -1}).limit(5).exec( function (err, member) {
+	  if (err) return handleError(err);
+	  if(member) { 
+	  	var res = 'The top trolls are: ';
+	  	console.log(member.length);
+	  	for(var i = 0; i < member.length; i++){
+	  		res = res + (i + 1) + ": " + member[i].name + ' (' + member[i].timeouts + ' timeouts) ';
+	  	}
+	  	//future work, once there's a rate limiter display the messages one at a time
+	  	Twitch.sendChatMsg(res);
+	  }
+	});
+};
+
+Audience.prototype.incrementTrollCount = function(target){
+	var Member = mongoose.model('Member');
+
+	//Find the targeted user and announce when they were first seen
+	Member.findOneAndUpdate( { name: target }, {$inc: { timeouts: 1 }}, function(err, doc){
+    if (err) {
+        console.error("Failed to increase " + target + "'s timeouts. Error JSON:", JSON.stringify(err, null, 2));
+     } else {
+        console.log(target + "'s timeouts has been increased to "  + doc.timeouts + 1);
+     }
+  });
 };
 
 module.exports = new Audience();

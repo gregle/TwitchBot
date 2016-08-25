@@ -143,21 +143,28 @@ Take from all users a defined {amount} of currency.
 
 ### MISC
 	!bot
-	\\returns: My purpose is unknown.  
+	//returns: My purpose is unknown.  
 
 Describes the bot origin
 
 	!firstSeen
-	\\returns: gregle was first seen on Sun Aug 21 2016
+	//returns: gregle was first seen on Sun Aug 21 2016
 
 Returns when the user was first seen in chat
 
 	!parrot {phrase}
-	\\returns: {phrase}
+	//returns: {phrase}
 
 The bot echos word for word the message it was sent
 
 	!uptime
-	\\returns: gregle has been live for 2 Hours 48 Minutes 9 Seconds
+	//returns: gregle has been live for 2 Hours 48 Minutes 9 Seconds
 
 Returns the current uptime of the stream
+
+	//(mods/streamers only)
+	!toptrolls
+	//returns: {list of the 5 users with the most timeouts}
+
+Returns a list of the 5 users who have received the most timeouts
+	
