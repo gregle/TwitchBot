@@ -19,14 +19,13 @@ Someday it'll actually do something maybe if everyone has enough freetime/drive 
 			"debug": true 
 		},
 		"connection": {
-			"cluster": "mongodb",
 			"reconnect": true
 		},
 		"identity": {
 			"username": "INSERT BOT ACCOUNT NAME HERE",
 			"password": "INSERT ACCOUNT OAUTH HERE"
 		}, 
-		"channels": ["INSET YOUR CHANNEL NAME HERE"],
+		"channels": ["#INSET YOUR CHANNEL NAME HERE"],
 		"clientID": "9zc8p1u5dh27fcd1uwse9w00210d2ri",
         "statusCheckRate": 5
     },
