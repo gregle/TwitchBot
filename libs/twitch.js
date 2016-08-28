@@ -102,4 +102,9 @@ Twitch.prototype.sendChatMsg = function(msg){
 	this.client.action(this.channel, msg);
 };
 
+//Sends a message to twitch chat. Future work is to group messages and send them all at once in order to not send too many messages too quickly
+Twitch.prototype.sendWhisperMsg = function(target, msg){
+	this.client.whisper(target, msg);
+};
+
 module.exports = new Twitch();
