@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
+var Logger = require('../libs/logger.js');
 
 var Audience = function () {};
 
@@ -27,8 +28,8 @@ var updateAudiencesDB = function(chatters){
 	}
 	if (bulk.length > 0) {
 		bulk.execute(function(err,result) {
-	       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with Audience updates: " + err); }
-	       else { console.log("<--TWITCH BOT--> Audience table updated"); }
+	       if(err){ Logger.error("There was a problem with Audience updates -- " + err); }
+	       else { Logger.log("Audience table updated"); }
 	    });
 	}
 };
@@ -44,7 +45,7 @@ Audience.prototype.getFirstSeen = function(target){
 
 	//Find the targeted user and announce when they were first seen
 	Member.findOne({ name: target }, 'name firstSeen', function (err, member) {
-	  if (err) return handleError(err);
+	  if (err) {Logger.error("Could not retrieve firstSeen record -- " + err);}
 	  if(member) { Twitch.sendChatMsg(member.name + ' was first seen on ' + member.firstSeen.toDateString()); }
 	});
 };
@@ -55,10 +56,9 @@ Audience.prototype.getTopTrolls = function(){
 
 	//Find the top users and report it to the chat
 	Member.find().sort({timeouts: -1}).limit(5).exec( function (err, member) {
-	  if (err) return handleError(err);
+	  if (err) {Logger.error("Could not retrieve topTrolls -- " + err);}
 	  if(member) { 
 	  	var res = 'The top trolls are: ';
-	  	console.log(member.length);
 	  	for(var i = 0; i < member.length; i++){
 	  		res = res + (i + 1) + ": " + member[i].name + ' (' + member[i].timeouts + ' timeouts) ';
 	  	}
@@ -74,9 +74,9 @@ Audience.prototype.incrementTrollCount = function(target){
 	//Find the targeted user and announce when they were first seen
 	Member.findOneAndUpdate( { name: target }, {$inc: { timeouts: 1 }}, function(err, doc){
     if (err) {
-        console.error("Failed to increase " + target + "'s timeouts. Error JSON:", JSON.stringify(err, null, 2));
+        Logger.error("Failed to increase " + target + "'s timeouts. Error JSON:", JSON.stringify(err, null, 2));
      } else {
-        console.log(target + "'s timeouts has been increased to "  + doc.timeouts + 1);
+        Logger.log(target + "'s timeouts has been increased to "  + doc.timeouts + 1);
      }
   });
 };

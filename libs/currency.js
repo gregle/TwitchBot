@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
 var config = require('../config.json');
+var Logger = require('../libs/logger.js');
 
 //Helper object holding the complex string generators
 var currencyStringHelper = {
@@ -66,8 +67,8 @@ Currency.prototype.modifyAllinChat = function(amount){
 		if (bulk.length > 0) {
 			//Make a system log but don't announce it to chat
 			bulk.execute(function(err,result) {
-		       if(err){ console.log("<--!TWITCH BOT ERROR!-->: there was a problem with Currency updates: " + err); }
-		       else { console.log("<--TWITCH BOT--> Currency updated"); }
+		       if(err){ Logger.error("There was a problem with Currency updates: " + err); }
+		       else { Logger.log("Currency updated"); }
 		    });
 		}
 	});
@@ -96,7 +97,7 @@ Currency.prototype.modifyCurrency = function(target, amount){
 			{upsert:true}, 
 			function(err, doc){
 			    if (err) {
-			        console.error("there was a problem modifying currency Error JSON:", JSON.stringify(err, null, 2));
+			        Logger.error("There was a problem modifying currency Error JSON:", JSON.stringify(err, null, 2));
 			        Twitch.sendChatMsg(currencyStringHelper.problem());
 			     } 
 			     else if(doc === null){
@@ -114,7 +115,7 @@ Currency.prototype.returnCurrencyCount = function(target, args){
 	var members = mongoose.model('Member');
 	members.findOne({'name': target}, function(err, doc){
 		if (err) {
-			if(err){console.error("there was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));}
+			if(err){Logger.error("There was a problem getting currency Error JSON:", JSON.stringify(err, null, 2));}
 			Twitch.sendChatMsg(doc.name + ", there was a problem getting currency");
 		} 
 		else if (doc === null){

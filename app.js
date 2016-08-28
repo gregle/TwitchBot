@@ -39,7 +39,6 @@ Twitch.client.on('chat', function(channel, user, message, self){
 						var msg = "";
 						if (msgArr[3]){ msg = message.substring( message.indexOf ( msgArr[2] + ' ' ) + msgArr[2].length ).trim(); }
 						else {msg = "";}
-						console.log("msg: " + msg);
 						Commands.createCmd( msgArr[2], msg );
 					}
 					if (msgArr[1] && msgArr[1] === 'rem'){

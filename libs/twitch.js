@@ -1,5 +1,6 @@
 //load twitch messaging interface
 var tmi=require('tmi.js');
+var Logger = require('../libs/logger.js');
 var options = require("../config.json");
 
 var Twitch = function () {};
@@ -45,7 +46,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list from Twitch");
+			Logger.error("Could not retrieve audience list from Twitch");
 		}
 		else{
 			if (body.stream === null) { 
@@ -66,7 +67,7 @@ Twitch.prototype.getChatterList = function(callback) {
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list");
+			Logger.error("Could not retrieve audience list");
 		}
 		else{
 			//Shove it into the callback
@@ -82,7 +83,7 @@ Twitch.prototype.getStreamUptime = function(callback) {
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			console.log("<--!TWITCH BOT ERROR!-->: Could not retrieve audience list from Twitch");
+			Logger.error("Could not retrieve audience list from Twitch");
 		}
 		else{
 			if (body.stream === null) { 

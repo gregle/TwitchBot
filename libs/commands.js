@@ -1,11 +1,11 @@
 var mongoose = require('mongoose');
 var Twitch = require('../libs/twitch.js');
+var Logger = require('../libs/logger.js');
 
 //Processes the command string and fills in the variables
 //str='this is a {0} response, {1}'' arg=['example', 'gregle' ]  
 var processString = function(str, args){
   if(str === ""){return " ";}
-  console.log(str + args);
   var output = str;
   for(var i = 0; i < args.length; i++){
     var re = new RegExp('{('+ i +')}', 'g');
@@ -37,10 +37,10 @@ Commands.prototype.createCmd = function(keyword, output){
 
   commands.findOneAndUpdate( { "keyword": keyword }, command, {upsert:true}, function(err, doc){
     if (err) {
-        console.error("insertItem failed:in collection command. Entry: " + JSON.stringify(keyword, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
+        Logger.error("insertItem failed:in collection command. Entry: " + JSON.stringify(keyword, null, 2) , ". Error JSON:", JSON.stringify(err, null, 2));
         Twitch.sendChatMsg("There was a problem adding command " + keyword);
      } else {
-        console.log("insertItem succeeded in collection command. Entry: " + JSON.stringify(keyword, null, 2));
+        Logger.log("insertItem succeeded in collection command. Entry: " + JSON.stringify(keyword, null, 2));
         Twitch.sendChatMsg("Command " + keyword + " added");
      }
   });
@@ -56,7 +56,7 @@ Commands.prototype.removeCmd = function(keyword){
 
 Commands.prototype.getCommand = function(msgArr){
   mongoose.model('Command').find({"keyword": msgArr[0]}, function(err, data) {
-      if (err) { Twitch.sendChatMsg('There was a problem'); console.log(err);}
+      if (err) { Twitch.sendChatMsg('There was a problem'); Logger.error(err);}
       else {
           if(data.length > 0) {
             Twitch.sendChatMsg(processString(data[0].output, msgArr.slice(1)));
