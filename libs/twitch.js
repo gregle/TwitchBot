@@ -46,7 +46,7 @@ Twitch.prototype.isStreamOnline = function(callback){
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			Logger.error("Could not retrieve audience list from Twitch");
+			Logger.error("Could not retrieve audience list for online check");
 		}
 		else{
 			if (body.stream === null) { 
@@ -67,7 +67,7 @@ Twitch.prototype.getChatterList = function(callback) {
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			Logger.error("Could not retrieve audience list");
+			Logger.error("Could not retrieve audience list for chatter check");
 		}
 		else{
 			//Shove it into the callback
@@ -83,7 +83,7 @@ Twitch.prototype.getStreamUptime = function(callback) {
 		method: "GET"
 	}, function(err, res, body) {
 		if (err){
-			Logger.error("Could not retrieve audience list from Twitch");
+			Logger.error("Could not retrieve audience list for uptime check");
 		}
 		else{
 			if (body.stream === null) { 
