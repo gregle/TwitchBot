@@ -16,5 +16,8 @@
     "mongodb": "^2.2.7",
     "mongoose": "^4.5.9",
     "tmi.js": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^3.0.2"
   }
 }
