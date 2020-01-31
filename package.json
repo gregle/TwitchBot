@@ -14,7 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "mongodb": "^2.2.7",
-    "mongoose": "^4.5.9",
+    "mongoose": "^5.8.10",
     "tmi.js": "^1.0.0"
   }
 }
